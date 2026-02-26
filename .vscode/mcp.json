@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "ML-Notebook-Library Docs": {
+      "type": "sse",
+      "url": "https://gitmcp.io/chitrank2050/ML-Notebook-Library"
+    }
+  }
+}

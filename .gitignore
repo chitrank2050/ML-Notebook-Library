@@ -153,8 +153,11 @@ Icon[
 # Editors / IDEs
 # -------------------------
 # VSCode
-.vscode/
 *.code-workspace
+.vscode/*
+# But re-include these specific files
+!.vscode/mcp.json
+!.vscode/settings.json
 
 # JetBrains (PyCharm)
 .idea/
