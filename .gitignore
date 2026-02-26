@@ -114,14 +114,14 @@ logs/
 *.npz
 
 # Data files
-*.csv
+# *.csv
 *.parquet
 *.feather
 
 # Exceptions (track small samples)
 !data/sample/
 !data/README.md
-!datasets/README.md
+# !datasets/README.md
 
 # ML/AI Caches
 hf_cache/
