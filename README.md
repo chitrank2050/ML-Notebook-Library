@@ -1,4 +1,4 @@
-# AI-microprojects
+# ML-Notebook-Library
 Learning AI with microprojects in the form of notebooks
 
 ### Project Structure
