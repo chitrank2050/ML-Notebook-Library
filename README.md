@@ -1,6 +1,8 @@
 # AI-microprojects
 Learning AI with microprojects in the form of notebooks
 
+### Project Structure
+```text
 notebooks/
 │
 ├── math-refresh/
@@ -77,3 +79,4 @@ notebooks/
     ├── vae.ipynb
     ├── diffusion_models.ipynb
     └── llm_prompting_rag.ipynb
+```
