@@ -96,7 +96,7 @@ ipython_config.py
 .DS_Store
 # data/
 # datasets/
-# models/
+models/
 checkpoints/
 saved_models/
 outputs/

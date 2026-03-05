@@ -11,7 +11,7 @@ PYTHON_VERSION := $(shell if [ -f .python-version ]; then cat .python-version; e
 .DEFAULT_GOAL := help
 
 # PHONY targets (not actual files)
-.PHONY: help init install dev tree lint format build clean obliviate python-version
+.PHONY: help init install dev tree lint format build clean obliviate python-version menu _clean_cache _clean_models _clean_venv
 
 
 # Help - Show available commands
@@ -32,9 +32,12 @@ help:
 	@echo "  make build         - Build distribution package"
 	@echo ""
 	@echo "Maintenance Commands:"
-	@echo "  make clean         - Remove cache files"
-	@echo "  make obliviate     - Remove cache + venv (full reset)"
+	@echo "  make clean         - Interactive: choose what to delete (cache, models)"
+	@echo "  make obliviate     - Interactive: full reset (clean + venv removal)"
 	@echo "  make python-version - Show current Python version"
+	@echo ""
+	@echo "Interactive Wizard:"
+	@echo "  make menu          - Arrow-key menu: init, install, clean, obliviate"
 	@echo ""
 
 # Init - Create virtual environment
@@ -144,36 +147,47 @@ build:
 	. $(VENV)/bin/activate && $(UV) run python -m build
 	@echo "✅ Build complete! Check the 'dist/' folder for .whl and .tar.gz files"%
 
-# Clean - Remove cache and temporary files
-clean:
-	@echo "🧹 Cleaning cache files..."
-	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
-	find . -type f -name "*.pyc" -delete 2>/dev/null || true
-	find . -type f -name "*.pyo" -delete 2>/dev/null || true
-	find . -type d -name "*.egg-info" -exec rm -rf {} + 2>/dev/null || true
-	find . -type d -name ".pytest_cache" -exec rm -rf {} + 2>/dev/null || true
-	find . -type d -name ".ruff_cache" -exec rm -rf {} + 2>/dev/null || true
-	rm -rf site/ 2>/dev/null || true
-	rm -rf dist/ 2>/dev/null || true
-	rm -rf .pytest_cache
-	rm -rf .ruff_cache
-	rm -rf .mypy_cache
-	rm -rf .ipynb_checkpoints
-	rm -rf .coverage
-	rm -rf htmlcov
+# ─────────────────────────────────────────────────────────────────────────────
+# Internal helpers (invoked by the interactive menus below)
+# ─────────────────────────────────────────────────────────────────────────────
+_clean_cache:
+	@echo "🧹 Removing Python cache files..."
+	@find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+	@find . -type f -name "*.pyc" -delete 2>/dev/null || true
+	@find . -type f -name "*.pyo" -delete 2>/dev/null || true
+	@find . -type d -name "*.egg-info" -exec rm -rf {} + 2>/dev/null || true
+	@find . -type d -name ".pytest_cache" -exec rm -rf {} + 2>/dev/null || true
+	@find . -type d -name ".ruff_cache" -exec rm -rf {} + 2>/dev/null || true
+	@rm -rf site/ dist/ .pytest_cache .ruff_cache .mypy_cache .ipynb_checkpoints .coverage htmlcov 2>/dev/null || true
 	@echo "✅ Cache cleaned"
 
-# obliviate - Remove everything including venv (full reset)
-obliviate: clean
+_clean_models:
+	@echo "🧹 Removing saved models..."
+	@rm -rf models/
+	@echo "✅ Models removed"
+
+_clean_venv:
 	@echo "🗑️  Removing virtual environment..."
-	rm -rf $(VENV)
-	@echo "✅ Full cleanup complete"
-	@echo ""
-	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-	@echo "  To set up again:"
-	@echo "  → Run 'make init' to create venv"
-	@echo "  → Run 'make install' to install dependencies"
-	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@rm -rf $(VENV)
+	@echo "✅ Virtual environment removed"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Clean - Interactive checkbox menu
+# ─────────────────────────────────────────────────────────────────────────────
+clean:
+	@bash scripts/menu.sh clean
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Obliviate - Interactive full-reset menu
+# ─────────────────────────────────────────────────────────────────────────────
+obliviate:
+	@bash scripts/menu.sh obliviate
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Menu - Top-level interactive wizard
+# ─────────────────────────────────────────────────────────────────────────────
+menu:
+	@bash scripts/menu.sh wizard
 
 # Python-version - Show current Python version
 python-version:
