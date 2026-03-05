@@ -175,19 +175,19 @@ _clean_venv:
 # Clean - Interactive checkbox menu
 # ─────────────────────────────────────────────────────────────────────────────
 clean:
-	@bash scripts/menu.sh clean
+	@uv run --with questionary scripts/menu.py clean
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Obliviate - Interactive full-reset menu
 # ─────────────────────────────────────────────────────────────────────────────
 obliviate:
-	@bash scripts/menu.sh obliviate
+	@uv run --with questionary scripts/menu.py obliviate
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Menu - Top-level interactive wizard
 # ─────────────────────────────────────────────────────────────────────────────
 menu:
-	@bash scripts/menu.sh wizard
+	@uv run --with questionary scripts/menu.py wizard
 
 # Python-version - Show current Python version
 python-version:
