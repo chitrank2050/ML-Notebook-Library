@@ -3,6 +3,11 @@ Learning AI with microprojects in the form of notebooks
 
 ### Project Structure
 ```text
+datasets/                            (Store datasets here)
+explanation/                         (Store explanations here)
+|
+├── gradient_descent.py              (Gradient Descent detailed explanation)
+|
 notebooks/
 │
 ├── math-refresh/
