@@ -109,6 +109,9 @@ def train_model():
     # Make predictions on the test set
     y_pred = model.predict(X_test)
 
+    # Save the model
+    save_model(model)
+
     # Evaluate the model
     print("Mean Squared Error:", mean_squared_error(y_test, y_pred))
     print("R2 Score:", r2_score(y_test, y_pred))
@@ -120,9 +123,6 @@ def train_model():
     plt.ylabel("y")
     plt.title("Linear Regression")
     plt.show()
-
-    # Save the model
-    save_model(model)
 
 
 def save_model(model: LinearRegression):
@@ -143,21 +143,12 @@ def save_model(model: LinearRegression):
     # Method 2: Using joblib
     joblib.dump(model, MODEL_DIR / "model.joblib")
 
-    # Method 3: Using joblib with compression
+    # Method 3: Using joblib with compression [0 - 9]
     joblib.dump(model, MODEL_DIR / "model_compressed.joblib", compress=3)
-
-    # Method 4: Using joblib with different compression levels
-    joblib.dump(model, MODEL_DIR / "model_compressed_0.joblib", compress=0)
-    joblib.dump(model, MODEL_DIR / "model_compressed_1.joblib", compress=1)
-    joblib.dump(model, MODEL_DIR / "model_compressed_2.joblib", compress=2)
-    joblib.dump(model, MODEL_DIR / "model_compressed_3.joblib", compress=3)
-    joblib.dump(model, MODEL_DIR / "model_compressed_4.joblib", compress=4)
-    joblib.dump(model, MODEL_DIR / "model_compressed_5.joblib", compress=5)
-    joblib.dump(model, MODEL_DIR / "model_compressed_6.joblib", compress=6)
-    joblib.dump(model, MODEL_DIR / "model_compressed_7.joblib", compress=7)
-    joblib.dump(model, MODEL_DIR / "model_compressed_8.joblib", compress=8)
-    joblib.dump(model, MODEL_DIR / "model_compressed_9.joblib", compress=9)
 
 
 if __name__ == "__main__":
-    train_model()
+    try:
+        train_model()
+    except KeyboardInterrupt:
+        print("\nProgram interrupted. Closing gracefully.")
