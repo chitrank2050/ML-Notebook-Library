@@ -128,6 +128,7 @@ def gradient_descent(x, y, iterations=ITERATIONS, learning_rate=LEARNING_RATE):
         # We store the cost history to plot it later
         cost_history.append(cost)
         # Gradient magnitude: combined size of m and b gradients
+        # np.square() is optimized for in-place style operations.
         grad_history.append(np.sqrt(md**2 + bd**2))
         m_history.append(m_curr)
         b_history.append(b_curr)
